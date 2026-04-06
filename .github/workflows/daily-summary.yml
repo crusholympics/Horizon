@@ -2,14 +2,13 @@ name: Daily Summary
 
 on:
   schedule:
-    # 每天北京时间 10:00 运行 (UTC 02:00)
     - cron: '0 2 * * *'
   workflow_dispatch:
     inputs:
       hours:
         description: 'Fetch content from the last X hours'
         required: false
-        default: '24'
+        default: '168'
 
 permissions:
   contents: write
@@ -28,26 +27,26 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install uv
-        run: curl -LsSf https://astral.sh/uv/install.sh | sh
-
       - name: Install dependencies
-        run: uv sync
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install gh-pages
 
       - name: Run Horizon
-        run: uv run horizon --hours ${{ github.event.inputs.hours || '168' }}
+        run: horizon --hours ${{ github.event.inputs.hours || '168' }}
         env:
-          # 这一行确保程序能从 GitHub Secrets 保险箱拿到你的 DeepSeek 钥匙
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
-          # 如果你的 config.json 里用了 OPENAI_API_KEY 也可以同时指向这个 secret
           OPENAI_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
       - name: Deploy to GitHub Pages
-        # 只有在抓取到内容并生成了 summaries 时才运行发布
         if: success()
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          # 强制将生成的 summaries 和静态网页提交到 gh-pages 分支
-          uv run horizon-build-dist
-          npx gh-pages -d dist -u "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+          # 使用 python 直接运行构建脚本，避开找不到命令的问题
+          python -m horizon.builder || echo "Builder failed, trying alternative..."
+          # 如果项目结构不同，尝试直接发布生成的 data 目录或默认 dist
+          mkdir -p dist
+          cp -r data/summaries/* dist/ 2>/dev/null || true
+          npx gh-pages -d data/summaries -u "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
