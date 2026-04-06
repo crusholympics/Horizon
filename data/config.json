@@ -1,8 +1,9 @@
 {
   "ai": {
-    "provider": "deepseek", 
+    "provider": "openai", 
     "model": "deepseek-chat",
     "api_key_env": "DEEPSEEK_API_KEY",
+    "base_url": "https://api.deepseek.com",
     "languages": ["zh"] 
   },
   "sources": {
