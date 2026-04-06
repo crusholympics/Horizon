@@ -1,104 +1,51 @@
 {
-  "version": "1.0",
   "ai": {
-    "provider": "openai",
+    "provider": "deepseek", 
     "model": "deepseek-chat",
-    "base_url": "https://api.deepseek.com",
-    "api_key_env": "OPENAI_API_KEY",
-    "temperature": 0.3,
-    "max_tokens": 8192,
-    "languages": [
-      "zh",
-      "en"
-    ]
+    "api_key_env": "DEEPSEEK_API_KEY",
+    "languages": ["zh"] 
   },
   "sources": {
-    "github": [
-      {
-        "type": "user_events",
-        "username": "karpathy",
-        "enabled": true
-      },
-      {
-        "type": "repo_releases",
-        "owner": "vllm-project",
-        "repo": "vllm",
-        "enabled": true
-      },
-      {
-        "type": "repo_releases",
-        "owner": "sgl-project",
-        "repo": "sglang",
-        "enabled": true
-      },
-      {
-        "type": "repo_releases",
-        "owner": "triton-lang",
-        "repo": "triton",
-        "enabled": true
-      }
-    ],
-    "hackernews": {
-      "enabled": true,
-      "fetch_top_stories": 10,
-      "min_score": 200
-    },
+    "hackernews": { "enabled": false },
+    "reddit": { "enabled": false },
+    "telegram": { "enabled": false },
     "rss": [
-      {
-        "name": "Simon Willison",
-        "url": "https://simonwillison.net/atom/everything/",
-        "enabled": true,
-        "category": "ai-tools"
+      { 
+        "name": "香港交易所 (HKEX) - 披露与新闻", 
+        "url": "https://www1.hkexnews.hk/ncms/rss/RssNdt_c.xml" 
       },
-      {
-        "name": "GitHub Trending - Daily",
-        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
-        "enabled": true,
-        "category": "github-trending"
+      { 
+        "name": "SEC 最新披露 (美国证监会)", 
+        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&output=atom" 
       },
-      {
-        "name": "LWN.net",
-        "url": "https://lwn.net/headlines/full_text?key=${LWN_KEY}",
-        "enabled": true,
-        "category": "linux-kernel"
+      { 
+        "name": "中国证监会 - 政策发布", 
+        "url": "http://www.csrc.gov.cn/csrc/c100028/rss.xml" 
+      },
+      { 
+        "name": "Lexology - 资本市场", 
+        "url": "https://www.lexology.com/rss/category/capital-markets" 
+      },
+      { 
+        "name": "Lexology - 并购与公司法", 
+        "url": "https://www.lexology.com/rss/category/corporate-and-m-and-a" 
+      },
+      { 
+        "name": "Lexology - 公司治理", 
+        "url": "https://www.lexology.com/rss/category/corporate-governance" 
+      },
+      { 
+        "name": "Lexology - 科技与数据法", 
+        "url": "https://www.lexology.com/rss/category/technology-media-and-telecommunications" 
+      },
+      { 
+        "name": "华尔街见闻 - 宏观与市场", 
+        "url": "https://wallstreetcn.com/rss/master" 
       }
-    ],
-    "reddit": {
-      "enabled": true,
-      "subreddits": [
-        {
-          "subreddit": "MachineLearning",
-          "enabled": true,
-          "sort": "hot",
-          "time_filter": "day",
-          "fetch_limit": 15,
-          "min_score": 60
-        },
-        {
-          "subreddit": "LocalLLaMA",
-          "enabled": true,
-          "sort": "hot",
-          "time_filter": "day",
-          "fetch_limit": 15,
-          "min_score": 60
-        }
-      ],
-      "users": [],
-      "fetch_comments": 10
-    },
-    "telegram": {
-      "enabled": true,
-      "channels": [
-        {
-          "channel": "zaihuapd",
-          "enabled": true,
-          "fetch_limit": 20
-        }
-      ]
-    }
+    ]
   },
   "filtering": {
-    "ai_score_threshold": 7.0,
+    "ai_score_threshold": 7.0,  
     "time_window_hours": 24
   }
 }
