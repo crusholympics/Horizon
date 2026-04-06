@@ -1,16 +1,24 @@
-name: Daily Horizon Summary
+name: Daily Summary
 
 on:
-  # schedule:
-  #   - cron: '0 0 */2 * *'  # Runs every 2 days at 00:00 UTC
-  workflow_dispatch:      # Allow manual trigger
+  schedule:
+    # 每天北京时间 10:00 运行 (UTC 02:00)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      hours:
+        description: 'Fetch content from the last X hours'
+        required: false
+        default: '24'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
-  daily-summary:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  # Needed to commit changes
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,33 +26,28 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.11'
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v3
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install dependencies
         run: uv sync
 
       - name: Run Horizon
+        run: uv run horizon --hours ${{ github.event.inputs.hours || '168' }}
         env:
-          # Map secrets to environment variables expected by config.json
-          # Modify these based on your config.json provider settings
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
-          LWN_KEY: ${{ secrets.LWN_KEY }}
-        run: uv run horizon --hours 48
-
-      - name: Set current date as environment variable
-        run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+          # 这一行确保程序能从 GitHub Secrets 保险箱拿到你的 DeepSeek 钥匙
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          # 如果你的 config.json 里用了 OPENAI_API_KEY 也可以同时指向这个 secret
+          OPENAI_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          keep_files: true  # Keep existing summaries on gh-pages branch
-          commit_message: "📝 Daily Summary: ${{ env.DATE }}"
-          publish_branch: gh-pages
-          enable_jekyll: true
+        # 只有在抓取到内容并生成了 summaries 时才运行发布
+        if: success()
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # 强制将生成的 summaries 和静态网页提交到 gh-pages 分支
+          uv run horizon-build-dist
+          npx gh-pages -d dist -u "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
