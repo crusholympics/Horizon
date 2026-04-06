@@ -11,34 +11,18 @@
     "reddit": { "enabled": false },
     "telegram": { "enabled": false },
     "rss": [
-      { 
-        "name": "香港交易所 (HKEX) - 披露与新闻", 
-        "url": "https://www1.hkexnews.hk/ncms/rss/RssNdt_c.xml" 
-      },
-      { 
-        "name": "SEC 最新披露 (美国证监会)", 
-        "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&output=atom" 
-      },
-      { 
-        "name": "中国证监会 - 政策发布", 
-        "url": "http://www.csrc.gov.cn/csrc/c100028/rss.xml" 
-      },
-      { 
-        "name": "FT中文网 - 顶级商业财经", 
-        "url": "http://www.ftchinese.com/rss/feed" 
-      },
-      { 
-        "name": "界面新闻 - 宏观与资本市场", 
-        "url": "https://a.jiemian.com/index.php?m=article&a=rss" 
-      },
-      { 
-        "name": "钛媒体 - 创投与IPO", 
-        "url": "https://www.tmtpost.com/rss.xml" 
-      }
+      { "name": "香港交易所 (HKEX) - 披露与新闻", "url": "https://www1.hkexnews.hk/ncms/rss/RssNdt_c.xml" },
+      { "name": "SEC 最新披露 (美国证监会)", "url": "https://www.sec.gov/cgi-bin/browse-edgar?action=getcurrent&output=atom" },
+      { "name": "中国证监会 - 政策发布", "url": "http://www.csrc.gov.cn/csrc/c100028/rss.xml" },
+      { "name": "财新网 - 金融频道", "url": "http://psearch.caixin.com/api/rss/finance" },
+      { "name": "FT中文网 - 深度商业", "url": "http://www.ftchinese.com/rss/feed" },
+      { "name": "界面新闻 - 证券与资本市场", "url": "https://a.jiemian.com/index.php?m=article&a=rss" },
+      { "name": "钛媒体 - 创投与IPO", "url": "https://www.tmtpost.com/rss.xml" },
+      { "name": "律商联讯 (LexisNexis) - 法务动态", "url": "https://www.lexisnexis.com.cn/news/rss" }
     ]
   },
   "filtering": {
-    "ai_score_threshold": 6.0,  
-    "time_window_hours": 72
+    "ai_score_threshold": 3.0,  
+    "time_window_hours": 48
   }
 }
