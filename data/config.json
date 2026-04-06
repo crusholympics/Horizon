@@ -24,24 +24,16 @@
         "url": "http://www.csrc.gov.cn/csrc/c100028/rss.xml" 
       },
       { 
-        "name": "Lexology - 资本市场", 
-        "url": "https://www.lexology.com/rss/category/capital-markets" 
+        "name": "FT中文网 - 顶级商业财经", 
+        "url": "http://www.ftchinese.com/rss/feed" 
       },
       { 
-        "name": "Lexology - 并购与公司法", 
-        "url": "https://www.lexology.com/rss/category/corporate-and-m-and-a" 
+        "name": "界面新闻 - 宏观与资本市场", 
+        "url": "https://a.jiemian.com/index.php?m=article&a=rss" 
       },
       { 
-        "name": "Lexology - 公司治理", 
-        "url": "https://www.lexology.com/rss/category/corporate-governance" 
-      },
-      { 
-        "name": "Lexology - 科技与数据法", 
-        "url": "https://www.lexology.com/rss/category/technology-media-and-telecommunications" 
-      },
-      { 
-        "name": "华尔街见闻 - 宏观与市场", 
-        "url": "https://wallstreetcn.com/rss/master" 
+        "name": "钛媒体 - 创投与IPO", 
+        "url": "https://www.tmtpost.com/rss.xml" 
       }
     ]
   },
