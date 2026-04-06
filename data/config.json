@@ -45,9 +45,8 @@
       }
     ]
   },
- "filtering": {
+  "filtering": {
     "ai_score_threshold": 5.0,  
     "time_window_hours": 168
-  }
   }
 }
