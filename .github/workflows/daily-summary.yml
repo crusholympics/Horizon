@@ -38,11 +38,20 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
 
+      - name: Create Index Page
+        run: |
+          # 自动把最新的那份简报复制一份作为首页，解决 404 问题
+          mkdir -p web_dist
+          cp data/summaries/*.md web_dist/
+          LATEST_FILE=$(ls -t data/summaries/*.md | head -n 1)
+          cp "$LATEST_FILE" web_dist/index.md
+          # 创建一个简单的 HTML 引导，防止某些浏览器不识别 .md
+          echo "Your legal intelligence report is ready. If not redirected, click the files below." > web_dist/README.txt
+
       - name: Deploy to GitHub Pages
         if: success()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # 核心改动：直接将存放简报的文件夹发布为网页
-          publish_dir: ./data/summaries
+          publish_dir: ./web_dist
           publish_branch: gh-pages
