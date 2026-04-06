@@ -38,7 +38,7 @@
     ]
   },
   "filtering": {
-    "ai_score_threshold": 5.0,  
-    "time_window_hours": 168
+    "ai_score_threshold": 6.0,  
+    "time_window_hours": 72
   }
 }
