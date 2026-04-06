@@ -31,7 +31,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e .
-          pip install gh-pages
 
       - name: Run Horizon
         run: horizon --hours ${{ github.event.inputs.hours || '168' }}
@@ -41,12 +40,9 @@ jobs:
 
       - name: Deploy to GitHub Pages
         if: success()
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          # 使用 python 直接运行构建脚本，避开找不到命令的问题
-          python -m horizon.builder || echo "Builder failed, trying alternative..."
-          # 如果项目结构不同，尝试直接发布生成的 data 目录或默认 dist
-          mkdir -p dist
-          cp -r data/summaries/* dist/ 2>/dev/null || true
-          npx gh-pages -d data/summaries -u "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 核心改动：直接将存放简报的文件夹发布为网页
+          publish_dir: ./data/summaries
+          publish_branch: gh-pages
