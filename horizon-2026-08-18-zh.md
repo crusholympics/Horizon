@@ -1,6 +1,6 @@
-# Horizon 每日速递 - 2026-08-17
+# Horizon 每日速递 - 2026-08-18
 
-> Analyzed 54 items, but none met the importance threshold.
+> Analyzed 67 items, but none met the importance threshold.
 
 今日暂无重要动态，可能原因：
 - 今天关注的信息源较平静
